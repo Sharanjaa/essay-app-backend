@@ -34,7 +34,7 @@ exports.signup = async (req, res) => {
           });
           return;
         } else {
-          if (req.body.question.trim().length < 50) {
+          if (req.body.question.trim().length < 10) {
             res.status(400).json({
               error: {
                 message: "Please enter a valid question",
