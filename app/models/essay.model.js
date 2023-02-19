@@ -1,9 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
   const Essay = sequelize.define("essay", {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true
-    },
     question: {
       type: Sequelize.STRING
     },
