@@ -53,8 +53,8 @@ exports.signup = async (req, res) => {
           const completion = await openai.createCompletion({
             model: "text-davinci-003",
             prompt: generatePrompt(req.body.question, req.body.answer, req.body.task),
-            temperature: 0.1,
-            max_tokens: 1000,
+            temperature: 0.5,
+            max_tokens: 3000,
           });
           res.status(200).json({ result: completion.data.choices[0].text });
         }
@@ -83,10 +83,9 @@ exports.signup = async (req, res) => {
     });
 
   function generatePrompt(question, answer, task) {
-    return `Assses the IELTS ${task} test, give each band score and details, include the following 
-    areas & include examples where appropriate:
-  
-     Further, always include the following in your response:
+    return `Assses the ${task} very strictly like if you were in a very bad mood but venting out your superiority.
+    
+    Further, always include the band score, detailed inaccuracies and corrective measures with examples under the following areas:
      
      - Overall Bandscore:
      - Task Achievement:
