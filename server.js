@@ -4,7 +4,7 @@ const cors = require("cors");
 const app = express();
 
 var corsOptions = {
-  origin: ["https://www.elanguagecenter.com/", "https://main.d3cs3k1oc14nnj.amplifyapp.com", "https:main.d3cs3k1oc14nnj.amplifyapp.com/", "https://www.elanguagecenter.com", "http://localhost:8081/","http://localhost:8081"],
+  origin: ["https://www.elanguagecenter.com/", "https://feat-paypal.d37q8kvco1fanb.amplifyapp.com", "https://feat-paypal.d37q8kvco1fanb.amplifyapp.com/", "https://main.d3cs3k1oc14nnj.amplifyapp.com", "https:main.d3cs3k1oc14nnj.amplifyapp.com/", "https://www.elanguagecenter.com", "http://localhost:8081/", "http://localhost:8081"],
 };
 
 app.use(cors(corsOptions));
@@ -43,12 +43,12 @@ function initial() {
     id: 1,
     name: "user"
   });
- 
+
   Role.create({
     id: 2,
     name: "moderator"
   });
- 
+
   Role.create({
     id: 3,
     name: "admin"
