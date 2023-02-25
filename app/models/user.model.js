@@ -8,6 +8,15 @@ module.exports = (sequelize, Sequelize) => {
     },
     password: {
       type: Sequelize.STRING
+    },
+    is_lifetime_member: {
+      type: Sequelize.BOOLEAN,
+    },
+    is_payment_complete: {
+      type: Sequelize.BOOLEAN
+    },
+    success_count: {
+      type: Sequelize.INTEGER
     }
   });
 

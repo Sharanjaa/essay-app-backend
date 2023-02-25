@@ -14,7 +14,6 @@ module.exports = function (app) {
     "/api/submit-essay",
     [
     ],
-    controller.signup
+    controller.submitEssay
   );
-
 };

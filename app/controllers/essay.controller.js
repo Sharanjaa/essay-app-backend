@@ -4,6 +4,7 @@ const Configuration = require("openai").Configuration;
 const config = require("../config/auth.config");
 const db = require("../models");
 const Essay = db.essay;
+const User = db.user;
 
 const Op = db.Sequelize.Op;
 
@@ -16,8 +17,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 
-exports.signup = async (req, res) => {
-  console.log("")
+exports.submitEssay = async (req, res) => {
   // Save User to Database
   Essay.create({
     user_id: req.body.user_id,
@@ -56,7 +56,19 @@ exports.signup = async (req, res) => {
             temperature: 0.5,
             max_tokens: 3000,
           });
-          res.status(200).json({ result: completion.data.choices[0].text });
+
+          const currentUser = await User.findOne({
+            where: {
+              id: req.body.user_id
+            }
+          });
+          //modifying the related field
+          currentUser.success_count = currentUser.success_count + 1;
+          //saving the changes
+          currentUser.save({ fields: ['success_count'] });
+          res.status(200).json({
+            result: completion.data.choices[0].text
+          });
         }
       } catch (error) {
         // Consider adjusting the error handling logic for your use case
