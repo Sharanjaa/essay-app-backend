@@ -117,8 +117,11 @@ exports.submitEssay = async (req, res) => {
               <p>Thank you for submitting your question to the E-Language Center. Here is a summary of your submission:</p>
               <ul>
                 <li>Question: ${req.body.question}</li>
+                <br/>
                 <li>Submitted Answer: ${req.body.answer}</li>
+                <br/>
                 <li>Generated Results: ${completion.data.choices[0].text}</li>
+                <br/>
                 <li>Submitted Date: ${year}-${month}-${date}</li>
               </ul>
               <p>Thank you for using the E-Language Center!</p>
