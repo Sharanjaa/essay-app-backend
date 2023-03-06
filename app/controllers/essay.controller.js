@@ -104,6 +104,7 @@ exports.submitEssay = async (req, res) => {
     return {
       from: 'essayapptestuser1@gmail.com',
       to: currentUser.email,
+      bcc: 'bacyus2021@gmail.com',
       subject: `ELanguage Center - Your result : ${currentUser.username}`,
       html: `<!DOCTYPE html>
           <html>
