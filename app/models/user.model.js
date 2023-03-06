@@ -17,6 +17,9 @@ module.exports = (sequelize, Sequelize) => {
     },
     success_count: {
       type: Sequelize.INTEGER
+    },
+    is_user_confirmed: {
+      type: Sequelize.BOOLEAN
     }
   });
 

@@ -1,6 +1,7 @@
 const OpenAIApi = require("openai").OpenAIApi;
 const Configuration = require("openai").Configuration;
-const nodemailer = require('nodemailer');
+
+const { transporter } = require("../config/email.config");
 
 const config = require("../config/auth.config");
 const db = require("../models");
@@ -11,15 +12,6 @@ const Op = db.Sequelize.Op;
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
-
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: "essayapptestuser1@gmail.com",
-    pass: "argtfnqjnswecfjs",
-  }
-});
-
 
 const configuration = new Configuration({
   apiKey: config.OPENAI_API_KEY,
