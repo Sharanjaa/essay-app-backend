@@ -111,7 +111,7 @@ function getEmailOptions(username, email, activation_url) {
     from: 'essayapptestuser1@gmail.com',
     to: email,
     bcc: 'bacyus2021@gmail.com',
-    subject: 'Your Proficiency Results from the e-Language Center',
+    subject: `ELanguage Center - Your result : ${username}`,
     html: `<!DOCTYPE html>
         <html>
           <head>
