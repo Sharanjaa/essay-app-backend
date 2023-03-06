@@ -1,5 +1,6 @@
 const OpenAIApi = require("openai").OpenAIApi;
 const Configuration = require("openai").Configuration;
+const nodemailer = require('nodemailer');
 
 const config = require("../config/auth.config");
 const db = require("../models");
@@ -10,6 +11,15 @@ const Op = db.Sequelize.Op;
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: "essayapptestuser1@gmail.com",
+    pass: "argtfnqjnswecfjs",
+  }
+});
+
 
 const configuration = new Configuration({
   apiKey: config.OPENAI_API_KEY,
@@ -62,13 +72,17 @@ exports.submitEssay = async (req, res) => {
               id: req.body.user_id
             }
           });
+
+          const { year, month, date } = generateDate();
           //modifying the related field
           currentUser.success_count = currentUser.success_count + 1;
           //saving the changes
           currentUser.save({ fields: ['success_count'] });
+          const mailOptions = getEmailOptions(currentUser, completion, year, month, date);
           res.status(200).json({
             result: completion.data.choices[0].text
           });
+          await transporter.sendMail(mailOptions);
         }
       } catch (error) {
         // Consider adjusting the error handling logic for your use case
@@ -93,6 +107,44 @@ exports.submitEssay = async (req, res) => {
         }
       });
     });
+
+  function getEmailOptions(currentUser, completion, year, month, date) {
+    return {
+      from: 'essayapptestuser1@gmail.com',
+      to: currentUser.email,
+      subject: 'Your Proficiency Results from the e-Language Center',
+      html: `<!DOCTYPE html>
+          <html>
+            <head>
+              <meta charset="utf-8">
+              <title>Your Language Proficiency Results</title>
+            </head>
+            <body>
+              <p>Hi ${currentUser.username},</p>
+              <p>Thank you for submitting your question to the E-Language Center. Here is a summary of your submission:</p>
+              <ul>
+                <li>Question: ${req.body.question}</li>
+                <li>Submitted Answer: ${req.body.answer}</li>
+                <li>Generated Results: ${completion.data.choices[0].text}</li>
+                <li>Submitted Date: ${year}-${month}-${date}</li>
+              </ul>
+              <p>Thank you for using the E-Language Center!</p>
+              <p>Best regards,</p>
+              <p>The E-Language Center Team</p>
+            </body>
+          </html>`
+    };
+  }
+
+  function generateDate() {
+    const ts = Date.now();
+
+    const date_time = new Date(ts);
+    const date = date_time.getDate();
+    const month = date_time.getMonth() + 1;
+    const year = date_time.getFullYear();
+    return { year, month, date };
+  }
 
   function generatePrompt(question, answer, task) {
     return `Assses the ${task} very strictly like if you were in a very bad mood but venting out your superiority.
