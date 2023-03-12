@@ -137,7 +137,7 @@ exports.submitEssay = async (req, res) => {
                 <br/>
                 <li>Submitted Answer: ${req.body.answer}</li>
                 <br/>
-                <li>Generated Results: ${completion.data.choices[0].text}</li>
+                <li>Generated Results: ${completion.data.choices[0].message.content}</li>
                 <br/>
                 <li>Submitted Date: ${year}-${month}-${date}</li>
               </ul>
