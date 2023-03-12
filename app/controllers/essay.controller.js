@@ -143,15 +143,17 @@ exports.submitEssay = async (req, res) => {
   }
 
   function generatePrompt(question, answer, task) {
-    return `You are an expert English teacher who excels at training candidates in IELTS, PTE, TOEFL and Duolingo. 
-
-    You will help grade the writing task given by the user. You will always provide the following:
-    - The overall score
-    - The breakdown of each band /criteria
-    - Areas to improve with examples
+    return `Assses the ${task} very strictly like if you were in a very bad mood but venting out your superiority.
     
-    Task: ${task} 
-
+    Further, always include the band score, detailed inaccuracies and corrective measures with examples under the following areas:
+     
+     - Overall Bandscore:
+     - Task Achievement:
+     - Grammatical Range and Accuracy:
+     - Lexical Resource:
+     - Coherence and Cohesion:
+     - Areas to improve: If there are no areas to improve, then skip this point
+    
     Question: '${question}'
     
     Answer: '${answer}.'`;
