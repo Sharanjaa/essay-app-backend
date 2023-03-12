@@ -92,10 +92,7 @@ exports.activate = async (req, res) => {
     currentUser.is_user_confirmed = true;
     //saving the changes
     currentUser.save({ fields: ['is_user_confirmed'] });
-    res.status(200).json({
-      result: "You have successfully been verified!"
-    });
-
+    res.status(200).send("You have successfully been verified!");
   } catch (err) {
     console.error(`Error with user update request: ${err}`);
     res.status(500).json({

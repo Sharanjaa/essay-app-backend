@@ -1,3 +1,4 @@
+
 const OpenAIApi = require("openai").OpenAIApi;
 const Configuration = require("openai").Configuration;
 
@@ -52,11 +53,27 @@ exports.submitEssay = async (req, res) => {
             });
             return;
           }
+          /* commenting Da-vinci
           const completion = await openai.createCompletion({
             model: "text-davinci-003",
             prompt: generatePrompt(req.body.question, req.body.answer, req.body.task),
             temperature: 0.5,
             max_tokens: 3000,
+          });
+
+          YUJITH*/
+
+          const completion = await openai.createChatCompletion({
+            model: "gpt-3.5-turbo",
+            messages: [
+              { role: "system", content: generateSystemPrompt() },
+              { role: "user", content: generatePrompt(req.body.question, req.body.answer, req.body.task) }
+            ],
+            temperature: 0.1,
+            max_tokens: 2048,
+            top_p: 1,
+            presence_penalty: 0.5,
+            frequency_penalty: 0.5
           });
 
           const currentUser = await User.findOne({
@@ -72,7 +89,7 @@ exports.submitEssay = async (req, res) => {
           currentUser.save({ fields: ['success_count'] });
           const mailOptions = getEmailOptions(currentUser, completion, year, month, date);
           res.status(200).json({
-            result: completion.data.choices[0].text
+            result: completion.data.choices[0].message.content
           });
           await transporter.sendMail(mailOptions);
         }
@@ -141,22 +158,21 @@ exports.submitEssay = async (req, res) => {
     const year = date_time.getFullYear();
     return { year, month, date };
   }
-
+  /*Updated this function*/
   function generatePrompt(question, answer, task) {
-    return `Assses the ${task} very strictly like if you were in a very bad mood but venting out your superiority.
-    
-    Further, always include the band score, detailed inaccuracies and corrective measures with examples under the following areas:
-     
-     - Overall Bandscore:
-     - Task Achievement:
-     - Grammatical Range and Accuracy:
-     - Lexical Resource:
-     - Coherence and Cohesion:
-     - Areas to improve: If there are no areas to improve, then skip this point
-    
-    Question: '${question}'
-    
-    Answer: '${answer}.'`;
+    return `  Task: ${task} 
+              Question: '${question}'
+              Answer: '${answer}.'`;
+  }
+
+  /*added this function*/
+  function generateSystemPrompt() {
+    return `You are an expert English teacher who excels at training candidates in IELTS, PTE, TOEFL and Duolingo. 
+
+    You will help grade the writing task given by the user. You will always provide the following:
+    - The overall score
+    - The breakdown of each band /criteria
+    - Areas to improve with examples`;
   }
 
 };
