@@ -69,7 +69,7 @@ exports.submitEssay = async (req, res) => {
               { role: "system", content: generateSystemPrompt() },
               { role: "user", content: generatePrompt(req.body.question, req.body.answer, req.body.task) }
             ],
-            temperature: 0.1,
+            temperature: 0.39,
             max_tokens: 2048,
             top_p: 1,
             presence_penalty: 0.5,
