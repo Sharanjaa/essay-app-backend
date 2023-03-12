@@ -143,7 +143,7 @@ exports.submitEssay = async (req, res) => {
   }
 
   function generatePrompt(question, answer, task) {
-    return `Assses the ${task} very strictly like if you were in a very bad mood but venting out your superiority.
+    return `Assses  ${task} very strictly like if you were in a very bad mood but venting out your superiority.
     
     Further, always include the band score, detailed inaccuracies and corrective measures with examples under the following areas:
      
